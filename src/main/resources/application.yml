@@ -1,0 +1,13 @@
+management:
+  security:
+    enabled: false
+  context-path: /manage
+    
+security:
+  basic:
+    enabled: false
+    
+server:
+  port: 11402
+  context-path: /checkasync
+    

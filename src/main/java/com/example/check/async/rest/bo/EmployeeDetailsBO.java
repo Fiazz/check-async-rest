@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientException;
 
 import com.example.check.async.rest.eo.EmployeeDetailsEO;
 import com.example.check.async.rest.vo.AddressVO;
@@ -34,22 +33,16 @@ public class EmployeeDetailsBO {
 			employeeDept = employeeDetailsEO.getEmployeeDept();
 			employeeProfile = employeeDetailsEO.getEmployeeProfile();
 
-			LOGGER.info("Employee Address : {}", employeeAddress.get());
-			LOGGER.info("Employee Department: {}", employeeDept.get());
-			LOGGER.info("Employee Profile: {} ", employeeProfile.get());
+			// Wait until all threads are complete
+			CompletableFuture.allOf(employeeAddress, employeeDept, employeeProfile).join();
 			employeeDetails = new EmployeeDetailsVO(employeeAddress.get(), employeeDept.get(), employeeProfile.get());
 		} catch (InterruptedException ie) {
-			LOGGER.error("Received Exception : {}", ie);
+			LOGGER.error("Received InterruptedException : {}", ie.getMessage());
 
-		} catch (RestClientException re) {
-			LOGGER.error("Received Exception : {}", re);
-
-		} catch (ExecutionException ee) {
-			LOGGER.error("Received Exception : {}", ee);
+		}  catch (ExecutionException ee) {
+			LOGGER.error("Received ExecutionException : {}", ee.getMessage());
 		}
 
-		// Wait until all threads are complete
-		CompletableFuture.allOf(employeeAddress, employeeDept, employeeProfile).join();
 		return employeeDetails;
 
 	}

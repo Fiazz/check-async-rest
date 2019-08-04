@@ -4,12 +4,13 @@ import java.util.concurrent.Executor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-@EnableAsync
+@EnableAsync(proxyTargetClass=true)
 public class ServiceConfiguration {
 	
 	@Bean(name = "asyncExecutor")
@@ -29,6 +30,11 @@ public class ServiceConfiguration {
 		executor.setThreadNamePrefix("AsyncThread-");
 		executor.initialize();
 		return executor;
+	}
+	
+	@Bean(name = "simpleAsyncExecutor")
+	public Executor simpleAsyncExecutor() {
+		return new SimpleAsyncTaskExecutor("AsyncThread-");
 	}
 	
 	@Bean

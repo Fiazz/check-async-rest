@@ -1,17 +1,14 @@
 package com.example.check.async.rest.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class EmployeeDetailsVO {
 
 	private AddressVO address;
 	private DepartmentVO department;
 	private EmployeeVO employee;
 
-	public EmployeeDetailsVO(AddressVO addressVO, DepartmentVO departmentVO, EmployeeVO employeeVO) {
-		this.address = addressVO;
-		this.department = departmentVO;
-		this.employee = employeeVO;
-	}
 }

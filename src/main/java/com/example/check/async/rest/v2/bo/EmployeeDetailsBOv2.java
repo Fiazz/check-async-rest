@@ -21,8 +21,7 @@ public class EmployeeDetailsBOv2 {
 	private EmpDepartmentEO empDeptEO;
 	private EmpProfileEO empProfileEO;
 
-	private List<EmployeeDetailsEOv2> asyncTasks = Arrays
-			.asList(new EmployeeDetailsEOv2[] { empAddressEO, empDeptEO, empProfileEO });
+	private List<EmployeeDetailsEOv2> asyncTasks = Arrays.asList(empAddressEO, empDeptEO, empProfileEO);
 
 	public void invokeEmployeeService() {
 		asyncTasks.forEach(task -> task.invokeForEmployeeDetails());
